@@ -30,7 +30,7 @@ crontab -e
 
 ### Architecture
 
-![Linux Clustering][https://github.com/jarviscanada/jarvis_data_eng_SaghanaMaheshsarma/tree/develop/linux_sql/assets/LinuxClustering.jpg]
+![Linux Clustering](https://github.com/jarviscanada/jarvis_data_eng_SaghanaMaheshsarma/blob/master/linux_sql/assets/LinuxClustering.jpg)
 - A PostgreSQL instance persists all data.
 - The bash agent collects server usage data and inserts it into the PostgreSQL instance.
   - host_info.sh acquires hardware info and runs once at installation.
