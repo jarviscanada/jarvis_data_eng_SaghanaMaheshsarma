@@ -45,17 +45,26 @@ for symbol in "$@"; do
     # Check for valid response from the API
     if [[ $quote_data == *"Global Quote"* ]]; then
         # Extract relevant data from the API response
-        symbol=$(echo "$quote_data" | jq -r '.["Global Quote"]["01. symbol"]')
-        open=$(echo "$quote_data" | jq -r '.["Global Quote"]["02. open"]')
-        high=$(echo "$quote_data" | jq -r '.["Global Quote"]["03. high"]')
-        low=$(echo "$quote_data" | jq -r '.["Global Quote"]["04. low"]')
-        price=$(echo "$quote_data" | jq -r '.["Global Quote"]["05. price"]')
-        volume=$(echo "$quote_data" | jq -r '.["Global Quote"]["06. volume"]')
+        symbol=$(echo "$quote_data" | jq -r '.["Global Quote"]["01. symbol"] | sub("^ "; ""; "g")')
+        open=$(echo "$quote_data" | jq -r '.["Global Quote"]["02. open"] | sub("^ "; ""; "g")')
+        high=$(echo "$quote_data" | jq -r '.["Global Quote"]["03. high"] | sub("^ "; ""; "g")')
+        low=$(echo "$quote_data" | jq -r '.["Global Quote"]["04. low"] | sub("^ "; ""; "g")')
+        price=$(echo "$quote_data" | jq -r '.["Global Quote"]["05. price"] | sub("^ "; ""; "g")')
+        volume=$(echo "$quote_data" | jq -r '.["Global Quote"]["06. volume"] | sub("^ "; ""; "g")')
 
+        echo $symbol
+        echo $open
+        echo $high
+        echo $low
+        echo $price
+        echo $volume
         # Insert data into PostgreSQL database
-        insert_statement="INSERT INTO quotes(symbol,open,high,low,price,volume) VALUES('$symbol','$open','$high','$low','$price','$volume')"
+        insert_statement="INSERT INTO quotes(symbol,open,high,low,price,volume) VALUES('$symbol','$open','$high','$low','$price','$volume');"
+
+        echo $insert_statement
         export PGPASSWORD=$psql_password
-        psql -h $psql_host -p $psql_port -d $db_name -U $psql_user -c insert_statement
+
+        psql -h $psql_host -p $psql_port -d $db_name -U $psql_user -c "$insert_statement"
     else
         echo "Skipping symbol $symbol due to API error."
     fi
