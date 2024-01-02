@@ -39,6 +39,9 @@ jarvis_projects:
     # The project description allows hiring managers to understand your project and technologies you used(e.g. programming languages, libraries, algorithms, hardware, tools, etc.).
     # The project description must start with an action verb (https://bit.ly/3guO98u)
     description: "Optimizing the efficient operation of a Linux cluster composed of numerous nodes/servers running CentOS 7, the Linux cluster monitoring agent aims to collect comprehensive hardware characteristics for each node and deliver real-time resource monitoring, encompassing CPU and memory data. Employing a reliable Relational Database Management System (RDBMS), the agent stores the data, empowering the Linux cluster management team to generate analytical reports for informed resource allocation."
+  - name : "Country Club Database Project"
+    git_url: "https://github.com/jarviscanada/jarvis_data_eng_SaghanaMaheshsarma/tree/develop/sql"
+    description: "Executed a comprehensive exploration of SQL in the CD (Country Club) Database Project, demonstrating fluency in fundamental and advanced queries, including JOIN operations and aggregations with strings. These skills are applied to a dynamic dataset simulating a Country Club's membership system, facilities, and bookings. This project showcases a practical and nuanced understanding of SQL, underscoring its applicability in effective database management and analysis."
   - name: "Core Java Apps"
     git_url: "/core_java"
     description:
