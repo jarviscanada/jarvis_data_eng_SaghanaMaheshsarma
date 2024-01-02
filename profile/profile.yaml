@@ -1,0 +1,113 @@
+# Preferred name (Characters only)
+name: "Saghana Mahesh Sarma"
+# Your GitHub repo root URL
+github_repo_root_url: https://github.com/jarviscanada/jarvis_data_eng_SaghanaMaheshsarma
+
+# Introduce yourself, your academic and professional background.
+# What excites you about the software industry and your passion. At least 80 words
+summary: As a seasoned software developer with a Master of Science in Computer Science from Concordia University, I possess a combination of practical knowledge and rigorous academic principles. I have gained extensive experience in design patterns, Agile methodologies, and effective project management throughout my professional trajectory. The dynamic nature of the software industry and the prospect of skillfully resolving complex issues are two aspects that I find particularly exciting. I am passionate about ensuring an optimal user experience through innovative solutions and efficient debugging. My academic foundation, coupled with practical experience, fuels my enthusiasm for staying at the forefront of technology. I am eager to discuss how I can bring substantial value to your team's goals.
+
+# Group your skills by level.
+# Your skills can be anything software related (e.g. language, frameworks, methodologies, software, etc.).
+skills:
+  # At least 5 skills
+  proficient:
+    - Java
+    - Javascript(React,Node.js)
+    - SQL,PostgreSQL
+    - Agile/Scrum
+    - Git
+  # At least 5 skills
+  competent:
+    - Python
+    - HTML/CSS
+    - MongoDB
+    - Amazon Web Services(AWS,S3,Lambda)
+    - C
+  # At least 5 skills
+  familiar:
+    - C++
+    - Redis
+    - Docker,Kubernetes
+    - Kotlin
+    - Linux/Bash
+
+# List of Jarvis projects
+jarvis_projects:
+  - name: "Cluster Monitor"
+    git_url: "https://github.com/jarviscanada/jarvis_data_eng_SaghanaMaheshsarma/tree/develop/linux_sql"
+    # The project description allows hiring managers to understand your project and technologies you used(e.g. programming languages, libraries, algorithms, hardware, tools, etc.).
+    # The project description must start with an action verb (https://bit.ly/3guO98u)
+    description: "Optimizing the efficient operation of a Linux cluster composed of numerous nodes/servers running CentOS 7, the Linux cluster monitoring agent aims to collect comprehensive hardware characteristics for each node and deliver real-time resource monitoring, encompassing CPU and memory data. Employing a reliable Relational Database Management System (RDBMS), the agent stores the data, empowering the Linux cluster management team to generate analytical reports for informed resource allocation."
+  - name: "Core Java Apps"
+    git_url: "/core_java"
+    description:
+      - "Twitter App: Curabitur laoreet tristique leo, eget suscipit nisi. Sed in sodales ex. Maecenas vitae tincidunt dui, et eleifend quam."
+      - "JDBC App: Curabitur laoreet tristique leo, eget suscipit nisi. Sed in sodales ex. Maecenas vitae tincidunt dui, et eleifend quam."
+      - "Grep App: Curabitur laoreet tristique leo, eget suscipit nisi. Sed in sodales ex. Maecenas vitae tincidunt dui, et eleifend quam."
+  - name: "Springboot App"
+    git_url: "/springboot"
+    description: ""
+  - name: "Python Data Analytics"
+    git_url: "/python_data_anlytics"
+    description: ""
+  - name: "Hadoop"
+    git_url: "/hadoop"
+    description: ""
+  - name: "Spark"
+    git_url: "/spark"
+    description: ""
+  - name: "Cloud/DevOps"
+    git_url: "/cloud_devops"
+    description: ""
+
+# List of personal or academic projects
+# Feel free to add more projects
+highlighted_projects:
+    #project name
+  - name : "Book Inventory System"
+    git_url: "https://github.com/saghanam/Bookzilla"
+    description : "Crafted an advanced Book Inventory System to streamline operations across multiple bookstores, offering dynamic inventory control for books with identical copies. The system proactively notifies customers upon stock depletion, enhancing user experience. Engineered with Node.js and leveraged the Knex ORM alongside a PostgreSQL database, ensuring a powerful and scalable solution for comprehensive book management."
+  - name: "Seller Portal"
+    #URL is optional
+    # The project description must start with an action verb (https://bit.ly/3guO98u)
+    description: "Contributed to the development of an enterprise application catering to cosmetic companies' brands and vendor partners. Played a key role in designing and implementing features such as Tracking and Notification Delivery, ads, and warehouse management. Facilitated communication between clients and the sales team, analyzing products to improve delivery efficiency."
+  - name: "Face Mask Detection System"
+    git_url:
+    description: "Engineered an innovative Face Mask Detection System leveraging a convolutional neural network, trained on diverse datasets from Kaggle. Developed with proficiency in Python and cutting-edge AI frameworks, the system stands as a pivotal contribution to public health and safety, accurately discerning various face mask types. This project reflects a commitment to utilizing technology for societal well-being, showcasing my expertise in artificial intelligence and computer vision."
+#List of professional experience
+#The job description allows hiring managers to understand your job and the technologies you used(e.g. programming languages, libraries, algorithms, hardware, tools, etc.).
+#The description must be more than 25 words. If your experience is not software related, please focus on soft skills and achievements (e.g. team collaboration, problem-solving, improvements, communication).
+professional_experience:
+  #Write your Jarvis role as a professional experience rather than training.
+  - title: "Software Developer"
+    company: "Jarvis"
+    duration: "2023-Present"
+    # The project description must start with an action verb (https://bit.ly/3guO98u)
+    description: "Currently undergoing intensive training at Jarvis, immersing myself in diverse technical stacks.This dynamic learning environment is enhancing my skills in linux,bash,SQL, and I am excited to apply this knowledge to real-world scenarios in the near future."
+  - title: "Full Stack Developer"
+    company: "Codingmart Technologies"
+    duration: "2019-2021"
+    description: "Developed and maintained end-to-end web applications, demonstrating fluency in both backend and frontend development. Created landing pages, dashboards, and web applications, involved in code reviewing, debugging, and fixing issues. Actively participated in the design and development processes to create an engaging experience for users using React JS. Developed robust and scalable web applications using Java, leveraging object-oriented principles and frameworks. Experienced in NodeJS using frameworks such as Express to deliver performant and scalable REST APIs. Assisted in the deployment and maintenance of production applications, ensuring high availability and scalability. Possess a working knowledge of microservices and server orchestration."
+
+#List of edcuation
+education: 
+  - school_name: "Concordia University"
+    duration: "2021-2023"
+    degree: "Masters of Applied Science"
+    department: "Applied Computer Science"
+    awards_achievements:
+  - school_name: "Sri Krishna College of Engineering and Technology"
+    duration: "2015-2019"
+    degree: "Bachelor of Engineering"
+    department: "Computer Science"
+    awards_achievements:
+
+#Optional section
+others:
+    #category
+  - title: "Activities/Hobbies"
+    bullets:
+      - "Volunteer, inCyber: Passionate volunteer in cybersecurity and software development to stay updated on industry trends and foster a collaborative community"
+      - "Gaming :Enjoy strategic thinking and teamwork playing board games"
+      - "Creative Writing : Curating content for a photography page,showcasing a blend of creativity and effective communication skills"
