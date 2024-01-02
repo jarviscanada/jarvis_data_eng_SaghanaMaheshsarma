@@ -1,3 +1,4 @@
+
 # Project Overview
 
 Welcome to the SQL Learning Project! In the dynamic landscape of data-driven roles, possessing a solid grasp of SQL (Structured Query Language) is indispensable. This project is designed to serve as a valuable learning experience for developers, data engineers, and analysts, offering an opportunity to hone essential SQL skills that are crucial for both day-to-day tasks and successful interviews.
@@ -444,9 +445,5 @@ FROM cd.members mems
 GROUP BY letter
 ORDER BY letter;
 ```
-
-
-
-
 
 
