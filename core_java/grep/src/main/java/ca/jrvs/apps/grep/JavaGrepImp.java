@@ -12,6 +12,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Implementation og the JavaGrep interface for searching a text pattern in files.
+ */
 public class JavaGrepImp implements JavaGrep {
 
   private static final Logger logger = LoggerFactory.getLogger(JavaGrepImp.class);
@@ -19,6 +22,7 @@ public class JavaGrepImp implements JavaGrep {
   private String rootPath;
   private String outFile;
 
+  //Getters and setters
   public String getRegex() {
     return regex;
   }
@@ -43,6 +47,11 @@ public class JavaGrepImp implements JavaGrep {
     this.outFile = outFile;
   }
 
+  /**
+   * Execute the process for finding the text pattern in the files
+   *
+   * @throws IOException
+   */
   @Override
   public void process() throws IOException {
     try {
@@ -65,6 +74,13 @@ public class JavaGrepImp implements JavaGrep {
     }
   }
 
+  /**
+   * List all the files in the specified root directory
+   *
+   * @param rootDir
+   * @return A list of files in the root directory
+   * @throws IOException
+   */
   @Override
   public List<File> listFiles(String rootDir) throws IOException {
     try (Stream<Path> pathStream = Files.walk(Paths.get(rootDir))) {
@@ -78,6 +94,13 @@ public class JavaGrepImp implements JavaGrep {
     }
   }
 
+  /**
+   * Read all the lines from the given file
+   *
+   * @param inputFile
+   * @return A list of lines read from the file
+   * @throws IOException
+   */
   @Override
   public List<String> readLines(File inputFile) throws IOException {
     if (!inputFile.isFile()) {
@@ -93,11 +116,23 @@ public class JavaGrepImp implements JavaGrep {
     }
   }
 
+  /**
+   * Check if a line contains the specified regex pattern
+   *
+   * @param line
+   * @return True if the line contains the pattern, false otherwise.
+   */
   @Override
   public boolean containsPattern(String line) {
     return Pattern.compile(regex).matcher(line).find();
   }
 
+  /**
+   * Write lines to the output file
+   *
+   * @param lines
+   * @throws IOException
+   */
   @Override
   public void writeToFile(List<String> lines) throws IOException {
     try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(outFile))) {
@@ -116,10 +151,22 @@ public class JavaGrepImp implements JavaGrep {
     }
   }
 
+  /**
+   * Log an exception with the specified message
+   *
+   * @param message - The log message
+   * @param e       - The exception to log
+   */
   private void handleException(String message, Exception e) {
     logger.error(message, e);
   }
 
+  /**
+   * Main method for executing the grep application
+   *
+   * @param args - This has the command line arguments which consist of regex, the input directory
+   *             to search and the output file
+   */
   public static void main(String[] args) {
     BasicConfigurator.configure();
     if (args.length != 3) {
@@ -138,7 +185,6 @@ public class JavaGrepImp implements JavaGrep {
       // Execute the grep process
       grepApp.process();
     } catch (IOException e) {
-      // Log an error if an IOException occurs during processing
       logger.error("Error during processing", e);
     }
   }
