@@ -43,11 +43,11 @@ jarvis_projects:
     git_url: "https://github.com/jarviscanada/jarvis_data_eng_SaghanaMaheshsarma/tree/develop/sql"
     description: "Executed a comprehensive exploration of SQL in the CD (Country Club) Database Project, demonstrating fluency in fundamental and advanced queries, including JOIN operations and aggregations with strings. These skills are applied to a dynamic dataset simulating a Country Club's membership system, facilities, and bookings. This project showcases a practical and nuanced understanding of SQL, underscoring its applicability in effective database management and analysis."
   - name: "Core Java Apps"
-    git_url: "/core_java"
+    git_url: "https://github.com/jarviscanada/jarvis_data_eng_SaghanaMaheshsarma/tree/develop/core_java"
     description:
       - "Twitter App: Curabitur laoreet tristique leo, eget suscipit nisi. Sed in sodales ex. Maecenas vitae tincidunt dui, et eleifend quam."
       - "JDBC App: Curabitur laoreet tristique leo, eget suscipit nisi. Sed in sodales ex. Maecenas vitae tincidunt dui, et eleifend quam."
-      - "Grep App: Curabitur laoreet tristique leo, eget suscipit nisi. Sed in sodales ex. Maecenas vitae tincidunt dui, et eleifend quam."
+      - "Grep App: The Java Grep App is a command-line utility inspired by Linux grep, allowing users to search for and extract lines matching a specified pattern within files. Built in core Java, it supports both Docker and JAR execution for efficient pattern searching in diverse environments."
   - name: "Springboot App"
     git_url: "/springboot"
     description: ""
