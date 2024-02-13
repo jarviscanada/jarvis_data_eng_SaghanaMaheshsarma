@@ -12,8 +12,8 @@ import java.net.http.HttpResponse;
 public class JavaHttpJson {
 
   public static void main(String[] args){
-    String symbol = "MSFT";
-    String apiKey = "d01b1e12b3msh1c971dd3e923817p141282jsna30e0ef7a63f";
+    String symbol = "";
+    String apiKey = "";
 
     HttpRequest request = HttpRequest.newBuilder()
         .uri(URI.create("https://alpha-vantage.p.rapidapi.com/query?function=GLOBAL_QUOTE&symbol="+symbol+"&datatype=json"))
