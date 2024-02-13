@@ -3,6 +3,7 @@ package ca.jrvs.apps.jdbc;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -26,7 +27,7 @@ public class JavaHttpJson {
       System.out.println(response.body());
     } catch (InterruptedException e) {
       e.printStackTrace();
-    } catch (JsonParseException e) {
+    } catch (JsonMappingException e) {
       e.printStackTrace();
     } catch (JsonProcessingException e) {
       e.printStackTrace();
