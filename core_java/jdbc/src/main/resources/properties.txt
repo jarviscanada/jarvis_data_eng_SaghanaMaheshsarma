@@ -7,4 +7,4 @@ username=saghanamaheshsarma
 password=""
 
 # API Key
-api-key=OVSW83YP2Z4HEWMS OVSW83YP2Z4HEWMS
+api-key=api_key

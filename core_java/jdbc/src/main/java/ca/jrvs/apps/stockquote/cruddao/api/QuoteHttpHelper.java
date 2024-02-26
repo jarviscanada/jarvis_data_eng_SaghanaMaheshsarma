@@ -95,7 +95,7 @@ public class QuoteHttpHelper {
 
   public static void main(String[] args) {
     // API key for accessing quote data
-    String apiKey = "OVSW83YP2Z4HEWMS OVSW83YP2Z4HEWMS";
+    String apiKey = "";
 
     // OkHttpClient for making HTTP requests
     OkHttpClient client = new OkHttpClient();
