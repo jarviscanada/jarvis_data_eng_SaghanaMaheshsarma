@@ -39,5 +39,10 @@ public class QuoteService {
       return Optional.empty();
     }
   }
+
+  public Optional<Quote> getQuote(String ticker){
+    return dao.findById(ticker);
+  }
+
 }
 

@@ -24,7 +24,14 @@ public class QuoteDao implements CrudDao<Quote, String> {
     }
 
     try {
-      PreparedStatement stmt = c.prepareStatement("REPLACE INTO quotes VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      PreparedStatement stmt = c.prepareStatement(
+          "INSERT INTO quote (ticker, open, high, low, price, volume, latest_trading_day, " +
+              "previous_close, change, change_percent, timestamp) " +
+              "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+              "ON CONFLICT (ticker) DO UPDATE SET open = ?, high = ?, low = ?, price = ?, " +
+              "volume = ?, latest_trading_day = ?, previous_close = ?, change = ?, " +
+              "change_percent = ?, timestamp = ?"
+      );
       stmt.setString(1, entity.getTicker());
       stmt.setDouble(2, entity.getOpen());
       stmt.setDouble(3, entity.getHigh());
@@ -36,6 +43,17 @@ public class QuoteDao implements CrudDao<Quote, String> {
       stmt.setDouble(9, entity.getChange());
       stmt.setString(10, entity.getChangePercent());
       stmt.setTimestamp(11, new Timestamp(entity.getTimestamp().getTime()));
+
+      stmt.setDouble(12, entity.getOpen());
+      stmt.setDouble(13, entity.getHigh());
+      stmt.setDouble(14, entity.getLow());
+      stmt.setDouble(15, entity.getPrice());
+      stmt.setInt(16, entity.getVolume());
+      stmt.setDate(17, new java.sql.Date(entity.getLatestTradingDay().getTime()));
+      stmt.setDouble(18, entity.getPreviousClose());
+      stmt.setDouble(19, entity.getChange());
+      stmt.setString(20, entity.getChangePercent());
+      stmt.setTimestamp(21, new Timestamp(entity.getTimestamp().getTime()));
 
       stmt.executeUpdate();
       return entity;
@@ -53,13 +71,13 @@ public class QuoteDao implements CrudDao<Quote, String> {
     }
 
     try {
-      PreparedStatement stmt = c.prepareStatement("SELECT * FROM quotes WHERE ticker = ?");
+      PreparedStatement stmt = c.prepareStatement("SELECT * FROM quote WHERE symbol = ?");
       stmt.setString(1, id);
       ResultSet rs = stmt.executeQuery();
 
       if (rs.next()) {
         Quote quote = new Quote();
-        quote.setTicker(rs.getString("ticker"));
+        quote.setTicker(rs.getString("symbol"));
         quote.setOpen(rs.getDouble("open"));
         quote.setHigh(rs.getDouble("high"));
         quote.setLow(rs.getDouble("low"));
@@ -85,11 +103,11 @@ public class QuoteDao implements CrudDao<Quote, String> {
     List<Quote> quotes = new ArrayList<>();
     try {
       Statement stmt = c.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM quotes");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM quote");
 
       while (rs.next()) {
         Quote quote = new Quote();
-        quote.setTicker(rs.getString("ticker"));
+        quote.setTicker(rs.getString("symbol"));
         quote.setOpen(rs.getDouble("open"));
         quote.setHigh(rs.getDouble("high"));
         quote.setLow(rs.getDouble("low"));
@@ -115,7 +133,7 @@ public class QuoteDao implements CrudDao<Quote, String> {
     }
 
     try {
-      PreparedStatement stmt = c.prepareStatement("DELETE FROM quotes WHERE ticker = ?");
+      PreparedStatement stmt = c.prepareStatement("DELETE FROM quote WHERE symbol = ?");
       stmt.setString(1, id);
       stmt.executeUpdate();
     } catch (SQLException e) {
@@ -127,7 +145,7 @@ public class QuoteDao implements CrudDao<Quote, String> {
   public void deleteAll() {
     try {
       Statement stmt = c.createStatement();
-      stmt.executeUpdate("DELETE FROM quotes");
+      stmt.executeUpdate("DELETE FROM quote");
     } catch (SQLException e) {
       e.printStackTrace();
     }

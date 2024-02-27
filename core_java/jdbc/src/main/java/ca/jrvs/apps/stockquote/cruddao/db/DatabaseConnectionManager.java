@@ -6,9 +6,10 @@ import java.sql.SQLException;
 
 public class DatabaseConnectionManager {
 
-  private static final String JDBC_URL_PREFIX = "jdbc:postgresql://";
+  private static final String jdbc_url = "jdbc:postgresql://";
   private static final String DEFAULT_HOST = "localhost";
   private static final int DEFAULT_PORT = 5432;
+
 
   private String host;
   private int port;
@@ -25,7 +26,7 @@ public class DatabaseConnectionManager {
   }
 
   public Connection getConnection() throws SQLException {
-    String url = JDBC_URL_PREFIX + host + ":" + port + "/" + databaseName;
+    String url = jdbc_url + host + ":" + port + "/" + databaseName;
     return DriverManager.getConnection(url, username, password);
   }
 }

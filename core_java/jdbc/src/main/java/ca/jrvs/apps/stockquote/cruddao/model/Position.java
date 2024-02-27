@@ -5,6 +5,15 @@ public class Position {
   private int numOfShares;
   private double valuePaid;
 
+  @Override
+  public String toString() {
+    return "Position{" +
+        "ticker='" + ticker + '\'' +
+        ", numOfShares=" + numOfShares +
+        ", valuePaid=" + valuePaid +
+        '}';
+  }
+
   public String getTicker() {
     return ticker;
   }

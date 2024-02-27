@@ -3,11 +3,13 @@ package ca.jrvs.apps.stockquote.cruddao.api;
 import ca.jrvs.apps.stockquote.cruddao.db.DatabaseConnectionManager;
 import ca.jrvs.apps.stockquote.cruddao.model.Quote;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import okhttp3.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
 public class QuoteHttpHelper {
 
@@ -21,6 +23,14 @@ public class QuoteHttpHelper {
     this.client = client;
     this.mapper = mapper;
     this.jdbcDriver = jdbcDriver;
+  }
+
+  private Properties loadProperties() throws IOException {
+    Properties properties = new Properties();
+    try (FileInputStream fis = new FileInputStream("src/resources/properties.txt")) {
+      properties.load(fis);
+    }
+    return properties;
   }
 
   public Quote fetchQuoteInfo(String symbol) throws IllegalArgumentException, IOException, SQLException {
@@ -54,9 +64,12 @@ public class QuoteHttpHelper {
   }
 
   private Quote parseQuote(String responseBody) throws IOException {
+    System.out.println(responseBody);
     JsonNode rootNode = mapper.readTree(responseBody).path("Global Quote");
     Quote quote = new Quote();
+    System.out.println("Parsing");
     quote.setTicker(rootNode.get("01. symbol").asText());
+    System.out.println("Parsing");
     quote.setOpen(rootNode.get("02. open").asDouble());
     quote.setHigh(rootNode.get("03. high").asDouble());
     quote.setLow(rootNode.get("04. low").asDouble());
@@ -66,6 +79,7 @@ public class QuoteHttpHelper {
     quote.setPreviousClose(rootNode.get("08. previous close").asDouble());
     quote.setChange(rootNode.get("09. change").asDouble());
     quote.setChangePercent(rootNode.get("10. change percent").asText());
+    System.out.println("Parsing");
     return quote;
   }
 
@@ -90,39 +104,6 @@ public class QuoteHttpHelper {
       statement.setTimestamp(11, quote.getTimestamp());
 
       statement.executeUpdate();
-    }
-  }
-
-  public static void main(String[] args) {
-    // API key for accessing quote data
-    String apiKey = "";
-
-    // OkHttpClient for making HTTP requests
-    OkHttpClient client = new OkHttpClient();
-
-    // ObjectMapper for JSON serialization/deserialization
-    ObjectMapper mapper = new ObjectMapper();
-
-    DatabaseConnectionManager jdbcDriver = new DatabaseConnectionManager("localhost", 5432, "stock_quote", "saghanamaheshsarma", "");
-    // Create QuoteHttpHelper instance
-    QuoteHttpHelper quoteHttpHelper = new QuoteHttpHelper(apiKey, client, mapper, jdbcDriver);
-
-//    QuoteDao quoteDao = new QuoteDao(jdbcDriver.getConnection());
-//    PositionDao positionDao = new PositionDao(jdbcDriver.getConnection());
-
-    // Symbol for the quote data to fetch
-    String symbol = "MSFT";
-
-    try {
-      // Fetch quote data
-      Quote quote = quoteHttpHelper.fetchQuoteInfo(symbol);
-
-      // Print fetched quote data
-      System.out.println("Fetched Quote:");
-      System.out.println(quote);
-
-    } catch (IllegalArgumentException | IOException | SQLException e) {
-      e.printStackTrace();
     }
   }
 }

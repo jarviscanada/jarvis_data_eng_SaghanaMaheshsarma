@@ -17,6 +17,23 @@ public class Quote {
   private String changePercent;
   private Timestamp timestamp; //time when the info was pulled
 
+  @Override
+  public String toString() {
+    return "Quote{" +
+        "symbol='" + ticker + '\'' +
+        ", open=" + open +
+        ", high=" + high +
+        ", low=" + low +
+        ", price=" + price +
+        ", volume=" + volume +
+        ", latestTradingDay=" + latestTradingDay +
+        ", previousClose=" + previousClose +
+        ", change=" + change +
+        ", changePercent='" + changePercent + '\'' +
+        ", timestamp=" + timestamp +
+        '}';
+  }
+
   public String getTicker() {
     return ticker;
   }

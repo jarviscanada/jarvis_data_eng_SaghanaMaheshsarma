@@ -24,11 +24,15 @@ public class PositionDao implements CrudDao<Position, String> {
     }
 
     try {
-      PreparedStatement stmt = c.prepareStatement("REPLACE INTO positions VALUES (?, ?, ?)");
+      PreparedStatement stmt = c.prepareStatement(
+          "INSERT INTO position (symbol, number_of_shares, value_paid) VALUES (?, ?, ?) " +
+              "ON CONFLICT (symbol) DO UPDATE SET number_of_shares = ?, value_paid = ?"
+      );
       stmt.setString(1, entity.getTicker());
       stmt.setInt(2, entity.getNumOfShares());
       stmt.setDouble(3, entity.getValuePaid());
-
+      stmt.setInt(4, entity.getNumOfShares());
+      stmt.setDouble(5, entity.getValuePaid());
       stmt.executeUpdate();
       return entity;
 
@@ -45,14 +49,14 @@ public class PositionDao implements CrudDao<Position, String> {
     }
 
     try {
-      PreparedStatement stmt = c.prepareStatement("SELECT * FROM positions WHERE ticker = ?");
+      PreparedStatement stmt = c.prepareStatement("SELECT * FROM position WHERE symbol = ?");
       stmt.setString(1, id);
       ResultSet rs = stmt.executeQuery();
 
       if (rs.next()) {
         Position position = new Position();
-        position.setTicker(rs.getString("ticker"));
-        position.setNumOfShares(rs.getInt("num_of_shares"));
+        position.setTicker(rs.getString("symbol"));
+        position.setNumOfShares(rs.getInt("number_of_shares"));
         position.setValuePaid(rs.getDouble("value_paid"));
         return Optional.of(position);
       } else {
@@ -69,12 +73,12 @@ public class PositionDao implements CrudDao<Position, String> {
     List<Position> positions = new ArrayList<>();
     try {
       Statement stmt = c.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM positions");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM position");
 
       while (rs.next()) {
         Position position = new Position();
-        position.setTicker(rs.getString("ticker"));
-        position.setNumOfShares(rs.getInt("num_of_shares"));
+        position.setTicker(rs.getString("symbol"));
+        position.setNumOfShares(rs.getInt("number_of_shares"));
         position.setValuePaid(rs.getDouble("value_paid"));
         positions.add(position);
       }
@@ -91,7 +95,7 @@ public class PositionDao implements CrudDao<Position, String> {
     }
 
     try {
-      PreparedStatement stmt = c.prepareStatement("DELETE FROM positions WHERE ticker = ?");
+      PreparedStatement stmt = c.prepareStatement("DELETE FROM position WHERE symbol = ?");
       stmt.setString(1, id);
       stmt.executeUpdate();
     } catch (SQLException e) {
@@ -103,7 +107,7 @@ public class PositionDao implements CrudDao<Position, String> {
   public void deleteAll() {
     try {
       Statement stmt = c.createStatement();
-      stmt.executeUpdate("DELETE FROM positions");
+      stmt.executeUpdate("DELETE FROM position");
     } catch (SQLException e) {
       e.printStackTrace();
     }

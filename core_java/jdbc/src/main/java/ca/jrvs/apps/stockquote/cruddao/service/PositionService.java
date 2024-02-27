@@ -3,6 +3,8 @@ package ca.jrvs.apps.stockquote.cruddao.service;
 import ca.jrvs.apps.stockquote.cruddao.model.Position;
 import ca.jrvs.apps.stockquote.cruddao.dao.PositionDao;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class PositionService {
@@ -67,6 +69,12 @@ public class PositionService {
     } else {
       throw new IllegalArgumentException("No position found for ticker: " + ticker);
     }
+  }
+  public List<Position> getAllPositions(){
+    Iterable<Position> positionsIterable = positionDao.findAll();
+    List<Position> positions = new ArrayList<>();
+    positionsIterable.forEach(positions::add);
+    return positions;
   }
 }
 
