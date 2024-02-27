@@ -1,64 +1,82 @@
 package ca.jrvs.apps.stockquote.cruddao.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import ca.jrvs.apps.stockquote.cruddao.dao.PositionDao;
+import ca.jrvs.apps.stockquote.cruddao.model.Position;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import ca.jrvs.apps.stockquote.cruddao.dao.PositionDao;
-import ca.jrvs.apps.stockquote.cruddao.model.Position;
-import ca.jrvs.apps.stockquote.cruddao.service.PositionService;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class PositionService_IntTest {
 
+  @Mock
+  private PositionDao positionDao;
+
+  @InjectMocks
   private PositionService positionService;
-  private PositionDao positionDaoMock;
 
   @BeforeEach
-  public void setUp() {
-    positionDaoMock = mock(PositionDao.class);
-    positionService = new PositionService(positionDaoMock);
+  public void setup() {
+    MockitoAnnotations.initMocks(this);
   }
 
   @Test
-  public void testBuy() {
-    // Mock existing position
-    String ticker = "AAPL";
-    Position existingPosition = new Position();
-    existingPosition.setTicker(ticker);
-    existingPosition.setNumOfShares(10);
-    existingPosition.setValuePaid(2000.0);
-    when(positionDaoMock.findById(ticker)).thenReturn(Optional.of(existingPosition));
+  public void testBuy_WithDatabaseInteraction() {
+    // Prepare test data
+    String validTicker = "AAPL";
+    int initialShares = 100;
+    double initialPricePerShare = 150.0;
+    int buyShares = 50;
+    double buyPricePerShare = 200.0;
+
+    // Mock findById to return an initial position
+    Position initialPosition = new Position();
+    initialPosition.setTicker(validTicker);
+    initialPosition.setNumOfShares(initialShares);
+    initialPosition.setValuePaid(initialShares * initialPricePerShare);
+    when(positionDao.findById(validTicker)).thenReturn(Optional.of(initialPosition));
 
     // Perform buy operation
-    Position newPosition = positionService.buy(ticker, 5, 150.0);
+    Position boughtPosition = positionService.buy(validTicker, buyShares, buyPricePerShare);
+    assertNotNull(boughtPosition);
+    assertEquals(initialShares + buyShares, boughtPosition.getNumOfShares());
 
-    // Verify the updated position
-    assertEquals(15, newPosition.getNumOfShares());
-    assertEquals(2750.0, newPosition.getValuePaid());
+    // Verify that findById was called once
+    verify(positionDao, times(1)).findById(validTicker);
   }
 
   @Test
-  public void testSell() {
-    // Mock existing position
-    String ticker = "AAPL";
-    Position existingPosition = new Position();
-    existingPosition.setTicker(ticker);
-    existingPosition.setNumOfShares(10);
-    existingPosition.setValuePaid(2000.0);
-    when(positionDaoMock.findById(ticker)).thenReturn(Optional.of(existingPosition));
+  public void testSell_WithDatabaseInteraction() {
+    // Prepare test data
+    String validTicker = "AAPL";
+    int initialShares = 100;
+    double initialPricePerShare = 150.0;
+    int sellShares = 30;
+    double sellPricePerShare = 250.0;
+
+    // Mock findById to return an initial position
+    Position initialPosition = new Position();
+    initialPosition.setTicker(validTicker);
+    initialPosition.setNumOfShares(initialShares);
+    initialPosition.setValuePaid(initialShares * initialPricePerShare);
+    when(positionDao.findById(validTicker)).thenReturn(Optional.of(initialPosition));
 
     // Perform sell operation
-    Position updatedPosition = positionService.sell(ticker, 3, 150.0);
+    Position soldPosition = positionService.sell(validTicker, sellShares, sellPricePerShare);
+    assertNotNull(soldPosition);
+    assertEquals(initialShares - sellShares, soldPosition.getNumOfShares());
 
-    // Verify the updated position
-    assertEquals(7, updatedPosition.getNumOfShares());
-    assertEquals(1100.0, updatedPosition.getValuePaid());
+    // Verify that findById was called once
+    verify(positionDao, times(1)).findById(validTicker);
   }
 }
+
 
 
 

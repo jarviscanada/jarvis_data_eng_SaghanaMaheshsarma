@@ -1,47 +1,67 @@
 package ca.jrvs.apps.stockquote.cruddao.service;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import ca.jrvs.apps.stockquote.cruddao.api.QuoteHttpHelper;
 import ca.jrvs.apps.stockquote.cruddao.dao.QuoteDao;
 import ca.jrvs.apps.stockquote.cruddao.model.Quote;
-import java.io.IOException;
-import java.sql.SQLException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import ca.jrvs.apps.stockquote.cruddao.service.QuoteService;
 
 public class QuoteService_UnitTest {
 
-  @Mock
-  private QuoteDao quoteDao;
-
-  @Mock
-  private QuoteHttpHelper httpHelper;
-
-  @InjectMocks
   private QuoteService quoteService;
+  private QuoteDao quoteDaoMock;
+  private QuoteHttpHelper quoteHttpHelperMock;
 
   @BeforeEach
-  void setUp() {
-    MockitoAnnotations.initMocks(this);
+  public void setup() {
+    quoteDaoMock = mock(QuoteDao.class);
+    quoteHttpHelperMock = mock(QuoteHttpHelper.class);
+    quoteService = new QuoteService(quoteDaoMock, quoteHttpHelperMock);
   }
 
   @Test
-  public void testFetchQuoteDataFromAPI_Success() throws SQLException, IOException {
-    // Mock the behavior of httpHelper
-    when(httpHelper.fetchQuoteInfo("AAPL")).thenReturn(new Quote(/* mocked quote data */));
+  public void testFetchQuoteDataFromAPI_WithValidSymbol() throws IOException, SQLException {
+    String validTicker = "AAPL";
+    Quote expectedQuote = new Quote();
 
-    // Call the method under test
-    Optional<Quote> quote = quoteService.fetchQuoteDataFromAPI("AAPL");
+    when(quoteHttpHelperMock.fetchQuoteInfo(validTicker)).thenReturn(expectedQuote);
 
-    // Verify the result
-    assertTrue(quote.isPresent());
-    // Add more assertions as needed
+    assertTrue(quoteService.fetchQuoteDataFromAPI(validTicker).isPresent());
   }
 
-  // Write more test methods to cover other scenarios
+  @Test
+  public void testFetchQuoteDataFromAPI_WithInvalidSymbol() throws IOException, SQLException {
+    String invalidTicker = "INVALID";
+
+    assertFalse(quoteService.fetchQuoteDataFromAPI(invalidTicker).isPresent());
+  }
+
+  @Test
+  public void testFetchQuoteDataFromAPI_WithIOException() throws IOException, SQLException {
+    String ticker = "AAPL";
+
+    // Simulate IOException when fetching quote data
+    when(quoteHttpHelperMock.fetchQuoteInfo(ticker)).thenThrow(IOException.class);
+
+    assertFalse(quoteService.fetchQuoteDataFromAPI(ticker).isPresent());
+  }
+
+  @Test
+  public void testFetchQuoteDataFromAPI_WithSQLException() throws IOException, SQLException {
+    String ticker = "AAPL";
+
+    when(quoteHttpHelperMock.fetchQuoteInfo(ticker)).thenThrow(SQLException.class);
+
+    assertFalse(quoteService.fetchQuoteDataFromAPI(ticker).isPresent());
+  }
+
 }

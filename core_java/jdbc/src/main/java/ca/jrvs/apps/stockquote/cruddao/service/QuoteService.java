@@ -1,5 +1,6 @@
 package ca.jrvs.apps.stockquote.cruddao.service;
 
+import ca.jrvs.apps.stockquote.cruddao.AppLogger;
 import ca.jrvs.apps.stockquote.cruddao.model.Quote;
 import ca.jrvs.apps.stockquote.cruddao.dao.QuoteDao;
 import ca.jrvs.apps.stockquote.cruddao.api.QuoteHttpHelper;
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.List;
+import org.slf4j.Logger;
 
 public class QuoteService {
 
@@ -15,6 +17,8 @@ public class QuoteService {
   private QuoteHttpHelper httpHelper;
 
   private List<String> validSymbols;
+  private static final Logger flowLogger = AppLogger.getFlowLogger();
+  private static final Logger errorLogger = AppLogger.getErrorLogger();
 
   // Constructor
   public QuoteService(QuoteDao dao, QuoteHttpHelper httpHelper) {
@@ -35,7 +39,7 @@ public class QuoteService {
       }
       return Optional.ofNullable(httpHelper.fetchQuoteInfo(ticker));
     } catch (IllegalArgumentException | IOException | SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
       return Optional.empty();
     }
   }

@@ -1,15 +1,20 @@
 package ca.jrvs.apps.stockquote.cruddao.service;
 
+import ca.jrvs.apps.stockquote.cruddao.AppLogger;
 import ca.jrvs.apps.stockquote.cruddao.model.Position;
 import ca.jrvs.apps.stockquote.cruddao.dao.PositionDao;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.slf4j.Logger;
 
 public class PositionService {
 
   private PositionDao positionDao;
+
+  private static final Logger flowLogger = AppLogger.getFlowLogger();
+  private static final Logger errorLogger = AppLogger.getErrorLogger();
 
   public PositionService(PositionDao positionDao) {
     this.positionDao = positionDao;
@@ -43,7 +48,8 @@ public class PositionService {
     }
 
     // Save or update the position in the database
-    return positionDao.save(newPosition);
+    positionDao.save(newPosition);
+    return newPosition;
   }
 
   public Position sell(String ticker, int numOfShares, double pricePerShare) {
@@ -55,6 +61,7 @@ public class PositionService {
       Position existingPosition = existingPositionOpt.get();
       int availableVolume = existingPosition.getNumOfShares();
 
+      System.out.println(availableVolume+ " " + numOfShares);
       // Check if the requested number of shares to sell exceeds the available volume
       if (numOfShares > availableVolume) {
         throw new IllegalArgumentException("Cannot sell more shares than available volume");
@@ -65,7 +72,8 @@ public class PositionService {
       existingPosition.setValuePaid(existingPosition.getValuePaid() - (numOfShares * pricePerShare));
 
       // Save the updated position in the database
-      return positionDao.save(existingPosition);
+      positionDao.save(existingPosition);
+      return existingPosition;
     } else {
       throw new IllegalArgumentException("No position found for ticker: " + ticker);
     }

@@ -1,5 +1,6 @@
 package ca.jrvs.apps.stockquote.cruddao.api;
 
+import ca.jrvs.apps.stockquote.cruddao.AppLogger;
 import ca.jrvs.apps.stockquote.cruddao.model.Position;
 import ca.jrvs.apps.stockquote.cruddao.model.Quote;
 import ca.jrvs.apps.stockquote.cruddao.service.PositionService;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.Scanner;
+import org.slf4j.Logger;
 
 public class StockQuoteController {
 
@@ -17,6 +19,9 @@ public class StockQuoteController {
   private PositionService positionService;
 
   private QuoteHttpHelper quoteHttpHelper;
+
+  private static final Logger flowLogger = AppLogger.getFlowLogger();
+  private static final Logger errorLogger = AppLogger.getErrorLogger();
 
   public StockQuoteController(QuoteService quoteService, PositionService positionService,QuoteHttpHelper quoteHttpHelper) {
     this.quoteService = quoteService;
@@ -140,10 +145,9 @@ public class StockQuoteController {
 
     try {
       Quote quote = quoteHttpHelper.fetchQuoteInfo(symbol);
-      System.out.print("Quote fetched and stored successfully");
+      flowLogger.info("Quote fetched and stored successfully");
     } catch (IllegalArgumentException | IOException | SQLException e) {
-      e.printStackTrace();
-      System.out.println("Error fetching and storing quote.");
+      errorLogger.error("Error occurred", e);
     }
   }
 }

@@ -16,8 +16,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import okhttp3.OkHttpClient;
+import org.slf4j.Logger;
 
 public class Main {
+  private static final Logger flowLogger = AppLogger.getFlowLogger();
+  private static final Logger errorLogger = AppLogger.getErrorLogger();
 
   public static void main(String[] args) {
     Properties properties = loadProperties("src/main/resources/properties.txt");
@@ -40,7 +43,7 @@ public class Main {
         con.initClient();
       }
     } catch (ClassNotFoundException | SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
     }
   }
 
@@ -49,7 +52,7 @@ public class Main {
     try (FileInputStream fis = new FileInputStream(filePath)) {
       properties.load(fis);
     } catch (IOException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
     }
     return properties;
   }

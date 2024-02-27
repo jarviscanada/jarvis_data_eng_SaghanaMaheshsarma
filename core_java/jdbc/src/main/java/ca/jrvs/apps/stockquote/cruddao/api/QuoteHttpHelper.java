@@ -1,5 +1,6 @@
 package ca.jrvs.apps.stockquote.cruddao.api;
 
+import ca.jrvs.apps.stockquote.cruddao.AppLogger;
 import ca.jrvs.apps.stockquote.cruddao.db.DatabaseConnectionManager;
 import ca.jrvs.apps.stockquote.cruddao.model.Quote;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
+import org.slf4j.Logger;
 
 public class QuoteHttpHelper {
 
@@ -17,6 +19,9 @@ public class QuoteHttpHelper {
   private OkHttpClient client;
   private ObjectMapper mapper;
   private DatabaseConnectionManager jdbcDriver;
+
+  private static final Logger flowLogger = AppLogger.getFlowLogger();
+  private static final Logger errorLogger = AppLogger.getErrorLogger();
 
   public QuoteHttpHelper(String apiKey, OkHttpClient client, ObjectMapper mapper, DatabaseConnectionManager jdbcDriver) {
     this.apiKey = apiKey;
@@ -46,6 +51,7 @@ public class QuoteHttpHelper {
         .url(url)
         .build();
 
+    flowLogger.info("Fetching data of application");
     try (Response response = client.newCall(request).execute()) {
       if (!response.isSuccessful()) {
         throw new IOException("Unexpected code " + response);
@@ -58,16 +64,15 @@ public class QuoteHttpHelper {
       storeQuoteInDatabase(quote);
       return quote;
     } catch (IOException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
       throw new IllegalArgumentException("Error fetching quote data for symbol: " + symbol);
     }
   }
 
   private Quote parseQuote(String responseBody) throws IOException {
-    System.out.println(responseBody);
+    flowLogger.info("Parsing the stock quote api results");
     JsonNode rootNode = mapper.readTree(responseBody).path("Global Quote");
     Quote quote = new Quote();
-    System.out.println("Parsing");
     quote.setTicker(rootNode.get("01. symbol").asText());
     System.out.println("Parsing");
     quote.setOpen(rootNode.get("02. open").asDouble());
@@ -79,12 +84,12 @@ public class QuoteHttpHelper {
     quote.setPreviousClose(rootNode.get("08. previous close").asDouble());
     quote.setChange(rootNode.get("09. change").asDouble());
     quote.setChangePercent(rootNode.get("10. change percent").asText());
-    System.out.println("Parsing");
     return quote;
   }
 
 
   private void storeQuoteInDatabase(Quote quote) throws SQLException {
+    flowLogger.info("Storing in database");
     try (Connection connection = jdbcDriver.getConnection()) {
       PreparedStatement statement = connection.prepareStatement(
           "INSERT INTO quote (symbol, open, high, low, price, volume, latest_trading_day, " +

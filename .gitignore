@@ -7,5 +7,6 @@ target/
 *.logs
 *.iml
 .idea/
+*.log
 .eclipse
 **/.DS_Store

@@ -1,5 +1,6 @@
 package ca.jrvs.apps.stockquote.cruddao.dao;
 
+import ca.jrvs.apps.stockquote.cruddao.AppLogger;
 import ca.jrvs.apps.stockquote.cruddao.dao.CrudDao;
 import ca.jrvs.apps.stockquote.cruddao.model.Position;
 import java.sql.*;
@@ -7,10 +8,13 @@ import java.util.Optional;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
 
 public class PositionDao implements CrudDao<Position, String> {
 
   private Connection c;
+  private static final Logger flowLogger = AppLogger.getFlowLogger();
+  private static final Logger errorLogger = AppLogger.getErrorLogger();
 
   // Constructor
   public PositionDao(Connection c) {
@@ -19,6 +23,7 @@ public class PositionDao implements CrudDao<Position, String> {
 
   @Override
   public Position save(Position entity) throws IllegalArgumentException {
+    System.out.println("Printing here");
     if (entity == null || entity.getTicker() == null) {
       throw new IllegalArgumentException("Entity or ID cannot be null");
     }
@@ -37,7 +42,7 @@ public class PositionDao implements CrudDao<Position, String> {
       return entity;
 
     } catch (SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
       return null;
     }
   }
@@ -63,7 +68,7 @@ public class PositionDao implements CrudDao<Position, String> {
         return Optional.empty();
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
       return Optional.empty();
     }
   }
@@ -83,7 +88,7 @@ public class PositionDao implements CrudDao<Position, String> {
         positions.add(position);
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
     }
     return positions;
   }
@@ -99,7 +104,7 @@ public class PositionDao implements CrudDao<Position, String> {
       stmt.setString(1, id);
       stmt.executeUpdate();
     } catch (SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
     }
   }
 
@@ -109,7 +114,7 @@ public class PositionDao implements CrudDao<Position, String> {
       Statement stmt = c.createStatement();
       stmt.executeUpdate("DELETE FROM position");
     } catch (SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
     }
   }
 }

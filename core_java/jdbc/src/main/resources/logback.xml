@@ -1,0 +1,23 @@
+<configuration>
+  <appender name="FLOW" class="ch.qos.logback.core.FileAppender">
+    <file>application_flow.log</file>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="ERROR_FILE" class="ch.qos.logback.core.FileAppender">
+    <file>application_error.log</file>
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="com.example" level="DEBUG">
+    <appender-ref ref="FLOW" />
+  </logger>
+
+  <root level="ERROR">
+    <appender-ref ref="ERROR_FILE" />
+  </root>
+</configuration>

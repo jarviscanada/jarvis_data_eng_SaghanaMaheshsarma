@@ -1,5 +1,6 @@
 package ca.jrvs.apps.stockquote.cruddao.dao;
 
+import ca.jrvs.apps.stockquote.cruddao.AppLogger;
 import ca.jrvs.apps.stockquote.cruddao.dao.CrudDao;
 import ca.jrvs.apps.stockquote.cruddao.model.Quote;
 import java.sql.*;
@@ -7,10 +8,14 @@ import java.util.Optional;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
 
 public class QuoteDao implements CrudDao<Quote, String> {
 
   private Connection c;
+
+  private static final Logger flowLogger = AppLogger.getFlowLogger();
+  private static final Logger errorLogger = AppLogger.getErrorLogger();
 
   // Constructor
   public QuoteDao(Connection c) {
@@ -59,7 +64,7 @@ public class QuoteDao implements CrudDao<Quote, String> {
       return entity;
 
     } catch (SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
       return null;
     }
   }
@@ -93,7 +98,7 @@ public class QuoteDao implements CrudDao<Quote, String> {
         return Optional.empty();
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
       return Optional.empty();
     }
   }
@@ -121,7 +126,7 @@ public class QuoteDao implements CrudDao<Quote, String> {
         quotes.add(quote);
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
     }
     return quotes;
   }
@@ -137,7 +142,7 @@ public class QuoteDao implements CrudDao<Quote, String> {
       stmt.setString(1, id);
       stmt.executeUpdate();
     } catch (SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
     }
   }
 
@@ -147,7 +152,7 @@ public class QuoteDao implements CrudDao<Quote, String> {
       Statement stmt = c.createStatement();
       stmt.executeUpdate("DELETE FROM quote");
     } catch (SQLException e) {
-      e.printStackTrace();
+      errorLogger.error("Error occurred", e);
     }
   }
 }
