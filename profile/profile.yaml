@@ -45,7 +45,7 @@ jarvis_projects:
   - name: "Core Java Apps"
     git_url: "https://github.com/jarviscanada/jarvis_data_eng_SaghanaMaheshsarma/tree/develop/core_java"
     description:
-      - "Stock App: The app fetches stock quotes from a REST API endpoint and populates the database instance inside the docker container with specified data"
+      - "Stock App: The Stock Quote App fetches real-time stock quotes from a REST API endpoint and updates the database housed within a Docker container with the retrieved data. Users can interact with the application to buy and sell stocks, view their portfolio, and fetch new stock quotes. The app leverages JDBC for database connectivity and incorporates Mockito for unit and integration testing."
       - "Grep App: The Java Grep App is a command-line utility inspired by Linux grep, allowing users to search for and extract lines matching a specified pattern within files. Built in core Java, it supports both Docker and JAR execution for efficient pattern searching in diverse environments."
 
 # List of personal or academic projects
