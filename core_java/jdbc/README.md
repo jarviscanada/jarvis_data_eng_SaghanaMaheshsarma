@@ -3,7 +3,7 @@ This application is a stock quote management system that allows users to buy and
 
 # Implementation
 ## ER Diagram
-
+![Linux Clustering](assets/stock_quote.jpg)
 ## Design Patterns
 The project follows the DAO (Data Access Object) and Repository design patterns.
 - **DAO Pattern**: It abstracts and encapsulates all access to the data source. DAO classes (`PositionDao` and `QuoteDao`) handle the CRUD operations for the corresponding model entities (`Position` and `Quote`).
