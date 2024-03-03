@@ -1,10 +1,7 @@
-# Database Connection Parameters
 db-class=org.postgresql.Driver
 server=localhost
 database=stock_quote
 port=5432
 username=saghanamaheshsarma
-password=""
-
-# API Key
+password=
 api-key=OVSW83YP2Z4HEWMS OVSW83YP2Z4HEWMS

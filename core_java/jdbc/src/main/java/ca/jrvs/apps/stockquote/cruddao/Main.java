@@ -23,17 +23,26 @@ public class Main {
   private static final Logger errorLogger = AppLogger.getErrorLogger();
 
   public static void main(String[] args) {
-    Properties properties = loadProperties("src/main/resources/properties.txt");
-
+    String propertiesFilePath = System.getenv("PROPERTIES_FILE_PATH");
+    if (propertiesFilePath == null || propertiesFilePath.isEmpty()) {
+      // Use default path when environment variable is not set
+      propertiesFilePath = "src/main/resources/properties.txt";
+    }
+    Properties properties = loadProperties(propertiesFilePath);
+    flowLogger.info("properties being accessed"+ properties);
+    flowLogger.info("class property"+ properties.getProperty("db-class"));
+    flowLogger.info("class property"+ properties.getProperty("username"));
     OkHttpClient client = new OkHttpClient();
     ObjectMapper mapper = new ObjectMapper();
     DatabaseConnectionManager jdbcDriver = createDatabaseConnectionManager(properties);
 
     try {
-      Class.forName(properties.getProperty("db-class"));
-      String url = "jdbc:postgresql://" + properties.getProperty("server") + ":" +
-          properties.getProperty("port") + "/" + properties.getProperty("database");
-      try (Connection c = DriverManager.getConnection(url, properties.getProperty("username"), properties.getProperty("password"))) {
+//      Class.forName(properties.getProperty("db-class"));
+//      String url = "jdbc:postgresql://" + properties.getProperty("server") + ":" +
+//          properties.getProperty("port") + "/" + properties.getProperty("database");
+      String url = "jdbc:postgresql://localhost:5432/stock_quote";
+
+      try (Connection c = DriverManager.getConnection(url, "saghanamaheshsarma","")) {
         QuoteDao qRepo = new QuoteDao(c);
         PositionDao pRepo = new PositionDao(c);
         QuoteHttpHelper rcon = new QuoteHttpHelper(properties.getProperty("api-key"),client,mapper,jdbcDriver);
@@ -42,7 +51,8 @@ public class Main {
         StockQuoteController con = new StockQuoteController(sQuote, sPos,rcon);
         con.initClient();
       }
-    } catch (ClassNotFoundException | SQLException e) {
+    } catch (SQLException e) {
+      System.out.println("Error in connecting to the database"+e);
       errorLogger.error("Error occurred", e);
     }
   }
@@ -52,18 +62,18 @@ public class Main {
     try (FileInputStream fis = new FileInputStream(filePath)) {
       properties.load(fis);
     } catch (IOException e) {
-      errorLogger.error("Error occurred", e);
+      errorLogger.error("Error occurred at loading properties", e);
     }
     return properties;
   }
 
   private static DatabaseConnectionManager createDatabaseConnectionManager(Properties properties) {
     String host = properties.getProperty("server");
-    int port = Integer.parseInt(properties.getProperty("port"));
+//    int port = Integer.parseInt(properties.getProperty("port"));
     String databaseName = properties.getProperty("database");
     String username = properties.getProperty("username");
     String password = properties.getProperty("password");
-    return new DatabaseConnectionManager(host, port, databaseName, username, password);
+    return new DatabaseConnectionManager(host, 5432, databaseName, username, password);
   }
 }
 
