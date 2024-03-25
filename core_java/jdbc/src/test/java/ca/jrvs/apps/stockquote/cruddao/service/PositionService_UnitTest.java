@@ -38,7 +38,6 @@ public class PositionService_UnitTest {
 
     // Call the buy method
     Position boughtPosition = positionService.buy(ticker, numOfShares, pricePerShare);
-    System.out.println(boughtPosition);
 
     // Assertions
     assertEquals(ticker, boughtPosition.getTicker());

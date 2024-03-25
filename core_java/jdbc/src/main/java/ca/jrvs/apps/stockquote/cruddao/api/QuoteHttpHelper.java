@@ -74,7 +74,6 @@ public class QuoteHttpHelper {
     JsonNode rootNode = mapper.readTree(responseBody).path("Global Quote");
     Quote quote = new Quote();
     quote.setTicker(rootNode.get("01. symbol").asText());
-    System.out.println("Parsing");
     quote.setOpen(rootNode.get("02. open").asDouble());
     quote.setHigh(rootNode.get("03. high").asDouble());
     quote.setLow(rootNode.get("04. low").asDouble());

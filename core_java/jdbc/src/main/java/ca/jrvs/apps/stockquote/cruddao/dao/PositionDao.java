@@ -23,7 +23,6 @@ public class PositionDao implements CrudDao<Position, String> {
 
   @Override
   public Position save(Position entity) throws IllegalArgumentException {
-    System.out.println("Printing here");
     if (entity == null || entity.getTicker() == null) {
       throw new IllegalArgumentException("Entity or ID cannot be null");
     }

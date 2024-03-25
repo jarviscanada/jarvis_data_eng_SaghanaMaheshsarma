@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import okhttp3.OkHttpClient;
@@ -22,30 +21,29 @@ public class Main {
   private static final Logger flowLogger = AppLogger.getFlowLogger();
   private static final Logger errorLogger = AppLogger.getErrorLogger();
 
+
   public static void main(String[] args) {
     String propertiesFilePath = System.getenv("PROPERTIES_FILE_PATH");
+    String serverHost = System.getenv("SERVER_HOST");
+    System.out.println(propertiesFilePath+" "+ serverHost);
     if (propertiesFilePath == null || propertiesFilePath.isEmpty()) {
       // Use default path when environment variable is not set
       propertiesFilePath = "src/main/resources/properties.txt";
     }
     Properties properties = loadProperties(propertiesFilePath);
+    properties.setProperty("server",serverHost);
     flowLogger.info("properties being accessed"+ properties);
-    flowLogger.info("class property"+ properties.getProperty("db-class"));
     flowLogger.info("class property"+ properties.getProperty("username"));
+    flowLogger.info("class property"+ properties.getProperty("api-key"));
     OkHttpClient client = new OkHttpClient();
     ObjectMapper mapper = new ObjectMapper();
     DatabaseConnectionManager jdbcDriver = createDatabaseConnectionManager(properties);
 
     try {
-//      Class.forName(properties.getProperty("db-class"));
-//      String url = "jdbc:postgresql://" + properties.getProperty("server") + ":" +
-//          properties.getProperty("port") + "/" + properties.getProperty("database");
-      String url = "jdbc:postgresql://localhost:5432/stock_quote";
-
-      try (Connection c = DriverManager.getConnection(url, "saghanamaheshsarma","")) {
+      try (Connection c = jdbcDriver.getConnection()) {
         QuoteDao qRepo = new QuoteDao(c);
         PositionDao pRepo = new PositionDao(c);
-        QuoteHttpHelper rcon = new QuoteHttpHelper(properties.getProperty("api-key"),client,mapper,jdbcDriver);
+        QuoteHttpHelper rcon = new QuoteHttpHelper(properties.getProperty("api-key"),client,mapper, jdbcDriver);
         QuoteService sQuote = new QuoteService(qRepo, rcon);
         PositionService sPos = new PositionService(pRepo);
         StockQuoteController con = new StockQuoteController(sQuote, sPos,rcon);
@@ -69,11 +67,11 @@ public class Main {
 
   private static DatabaseConnectionManager createDatabaseConnectionManager(Properties properties) {
     String host = properties.getProperty("server");
-//    int port = Integer.parseInt(properties.getProperty("port"));
+    String port = properties.getProperty("port");
     String databaseName = properties.getProperty("database");
     String username = properties.getProperty("username");
     String password = properties.getProperty("password");
-    return new DatabaseConnectionManager(host, 5432, databaseName, username, password);
+    return new DatabaseConnectionManager(host, port, databaseName, username, password);
   }
 }
 
