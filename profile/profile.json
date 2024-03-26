@@ -50,6 +50,11 @@
       ],
       "git_url": "https://github.com/jarviscanada/jarvis_data_eng_SaghanaMaheshsarma/tree/develop/core_java",
       "name": "Core Java Apps"
+    },
+    {
+      "description": "Demonstrated proficiency in Extract, Transform, Load (ETL) operations using PySpark through the creation and execution of a comprehensive project. It covers various topics such as data extraction from diverse sources, transformation using PySpark DataFrame operations, and loading into managed tables in Databricks. The exercises are designed to enhance understanding of PySpark and its applications in real-world data processing scenarios.",
+      "git_url": "https://github.com/jarviscanada/jarvis_data_eng_SaghanaMaheshsarma/tree/develop/spark",
+      "name": "PySpark Fundamentals"
     }
   ],
   "name": "Saghana Mahesh Sarma",
