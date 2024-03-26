@@ -1,1 +1,12 @@
 .idea/
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.logs
+*.iml
+.idea/
+*.log
+.eclipse
+**/.DS_Store

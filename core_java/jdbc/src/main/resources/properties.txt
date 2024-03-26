@@ -1,0 +1,5 @@
+database=stock_quote
+port=5432
+username=saghanamaheshsarma
+password=password
+api-key=OVSW83YP2Z4HEWMS OVSW83YP2Z4HEWMS
