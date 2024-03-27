@@ -6,7 +6,7 @@ As a seasoned software developer with a Master of Science in Computer Science fr
 
 **Proficient:** Java, Javascript(React,Node.js), SQL,PostgreSQL, Agile/Scrum, Git
 
-**Competent:** Python, HTML/CSS, MongoDB, Amazon Web Services(AWS,S3,Lambda), C
+**Competent:** Python, HTML/CSS, MongoDB, Databricks, Amazon Web Services(AWS,S3,Lambda), C
 
 **Familiar:** C++, Redis, Docker,Kubernetes, Kotlin, Linux/Bash
 
