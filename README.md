@@ -45,7 +45,7 @@ Project source code: [https://github.com/jarviscanada/jarvis_data_eng_SaghanaMah
 ## Education
 **Concordia University (2021-2023)**, Masters of Applied Science, Applied Computer Science
 
-**Sri Krishna College of Engineering and Technology (2015-2019)**, Bachelor of Engineering, Computer Science
+**Anna University (2015-2019)**, Bachelor of Engineering, Computer Science
 
 
 ## Miscellaneous
